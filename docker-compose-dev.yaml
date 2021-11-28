@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  pz2021-mysql:
+    container_name: pz2021-mysql-dev
+    ports:
+      - '33063:3306'
+
+  pz2021-php:
+    container_name: pz2021-php-dev
+    environment:
+      APP_ENV: dev
+      APP_VERSION: dev
+      DATABASE_URL: mysql://root:@pz2021-mysql:3306/pz2021_dev
+
+  pz2021-nginx:
+    container_name: pz2021-nginx-dev
+    ports:
+      - '8083:80'

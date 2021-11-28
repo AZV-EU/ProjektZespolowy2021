@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  pz2021-mysql:
+    container_name: pz2021-mysql-dev-local
+    ports:
+      - '33060:3306'
+  pz2021-php:
+    container_name: pz2021-php-dev-local
+    ports:
+      - '2222:22'
+    volumes:
+      - pz2021-api-vendor-sync:/app/vendor
+      - pz2021-api-app-sync:/app
+    environment:
+      APP_ENV: dev
+      APP_VERSION: dev
+      DATABASE_URL: mysql://root:@pz2021-mysql:3306/pz2021
+
+  pz2021-nginx:
+    container_name: pz2021-nginx-dev-local
+    ports:
+      - '9090:80'
+    volumes:
+      - pz2021-api-vendor-sync:/app/vendor
+      - pz2021-api-app-sync:/app
+
+volumes:
+  pz2021-api-vendor-sync:
+    external: true
+  pz2021-api-app-sync:
+    external: true
