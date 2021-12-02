@@ -15,15 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- * @Route("/auth", name="auth")
+ * @Route("/auth", name="auth_")
  */
 class AuthController extends AbstractController
 {
 
     private EntityManagerInterface $entityManager;
-    /**
-     * @var UserPasswordHasherInterface
-     */
     private UserPasswordHasherInterface $userPasswordHasher;
 
     public function __construct(
@@ -36,7 +33,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="_login")
+     * @Route("/login", name="login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
@@ -52,7 +49,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="_register")
+     * @Route("/register", name="register")
      * @param Request $request
      * @return Response
      */
@@ -90,16 +87,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="_logout")
+     * @Route("/logout", name="logout")
      */
     public function logout(): void {}
-
-    /**
-     * @Route("/protected", name="_protected")
-     * @return Response
-     */
-    public function protected(): Response
-    {
-        return $this->render('auth/protected.html.twig', []);
-    }
 }
