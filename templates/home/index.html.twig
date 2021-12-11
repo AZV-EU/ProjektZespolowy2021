@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello to you're tasks list!{% endblock %}
+
+{% block body %}
+    {% if tasks|length == 0 %}
+        <h1>You're  done all task. Thank you</h1>
+    {% else %}
+        <h1>You're tasks to do :</h1>
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>
+                Name
+            </td>
+            <td>
+                Due date
+            </td>
+            <td>
+                Actions
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>
+                    {{ task.name }}
+                </td>
+                <td>
+                    {% if task.dueDate<date() %}
+                        <span class="to-late">
+                            {{ task.dueDate|date('Y-m-d H:i:s') }}
+                        </span>
+                    {% else %}
+                        {{ task.dueDate|date('Y-m-d H:i:s') }}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('task', { task: task.id }) }}">Here</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if previous >= 0 %}
+        <a href="{{ path('home', { offset: previous }) }}">Previous</a>
+    {% endif %}
+    {% if next < tasks|length %}
+        <a href="{{ path('home', { offset: next }) }}">Next</a>
+    {% endif %}
+
+{% endblock %}

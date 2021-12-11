@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello to you're tasks list!{% endblock %}
+
+{% block body %}
+    <h1>Task Details</h1>
+    <a href="{{ path('done',{ task : task.id}) }}">
+        <button>DONE !</button>
+    </a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>
+                Name
+            </td>
+            <td>
+                Due date
+            </td>
+            <td>
+                Created by
+            </td>
+            <td>
+                Created at
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                {{ task.name }}
+            </td>
+            <td>
+                {{ task.dueDate|date('Y-m-d H:i:s') }}
+            </td>
+            <td>
+                {{ task.createdBy }}
+            </td>
+            <td>
+                {{ task.createdAt|date('Y-m-d H:i:s') }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Content :</h2>
+    {{ task.content|raw }}
+
+
+{% endblock %}

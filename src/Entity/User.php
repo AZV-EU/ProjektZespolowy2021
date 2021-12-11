@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,6 +36,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tasks::class, mappedBy="user")
+     */
+    private $tasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tasks::class, mappedBy="createdBy")
+     */
+    private $taskCreadedBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tasks::class, mappedBy="updatedBy")
+     */
+    private $taskUpdatedBy;
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+        $this->taskCreadedBy = new ArrayCollection();
+        $this->taskUpdatedBy = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -122,5 +146,100 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Tasks[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Tasks $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Tasks $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tasks[]
+     */
+    public function getTaskCreadedBy(): Collection
+    {
+        return $this->taskCreadedBy;
+    }
+
+    public function addTaskCreadedBy(Tasks $taskCreadedBy): self
+    {
+        if (!$this->taskCreadedBy->contains($taskCreadedBy)) {
+            $this->taskCreadedBy[] = $taskCreadedBy;
+            $taskCreadedBy->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaskCreadedBy(Tasks $taskCreadedBy): self
+    {
+        if ($this->taskCreadedBy->removeElement($taskCreadedBy)) {
+            // set the owning side to null (unless already changed)
+            if ($taskCreadedBy->getCreatedBy() === $this) {
+                $taskCreadedBy->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tasks[]
+     */
+    public function getTaskUpdatedBy(): Collection
+    {
+        return $this->taskUpdatedBy;
+    }
+
+    public function addTaskUpdatedBy(Tasks $taskUpdatedBy): self
+    {
+        if (!$this->taskUpdatedBy->contains($taskUpdatedBy)) {
+            $this->taskUpdatedBy[] = $taskUpdatedBy;
+            $taskUpdatedBy->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaskUpdatedBy(Tasks $taskUpdatedBy): self
+    {
+        if ($this->taskUpdatedBy->removeElement($taskUpdatedBy)) {
+            // set the owning side to null (unless already changed)
+            if ($taskUpdatedBy->getUpdatedBy() === $this) {
+                $taskUpdatedBy->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getEmail();
     }
 }

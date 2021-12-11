@@ -20,6 +20,10 @@ ADD crontab /etc/crontabs/root
 RUN docker-php-ext-install pdo_mysql mysqli zip
 
 #RUN docker-php-ext-enable intl opcache
+RUN apk add icu-dev
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+RUN docker-php-ext-enable intl
 
 RUN adduser -D -u 1000 docker && echo "docker:docker" | chpasswd
 
