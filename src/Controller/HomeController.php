@@ -64,22 +64,4 @@ class HomeController extends AbstractController
 
         return $this->redirect($this->generateUrl('home'));
     }
-
-    /**
-     * @Route("/test")
-     */
-    public function test()
-    {
-
-        $this->getUser();
-        $ob = $this->repository->findOneBy(['id' => 3]);
-
-        $ob->setName("testttt");
-
-        $this->entityManager->persist($ob);
-        $this->entityManager->flush();
-
-        return $this->render('home/index.html.twig');
-
-    }
 }
