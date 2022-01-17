@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello to you're tasks list!{% endblock %}
+{% block title %}Hello to your tasks list!{% endblock %}
 
 {% block body %}
     {% if tasks|length == 0 %}
-        <h1>You're  done all task. Thank you</h1>
+        <h1>No more tasks</h1>
     {% else %}
-        <h1>You're tasks to do :</h1>
+        <h1>Your tasks to do :</h1>
     {% endif %}
     <table class="table table-striped">
         <thead>
