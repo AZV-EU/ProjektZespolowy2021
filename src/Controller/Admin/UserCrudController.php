@@ -44,8 +44,6 @@ class UserCrudController extends AbstractCrudController
                 ),
             //TextField::new('password')->hideOnIndex(),
             AssociationField::new('tasks')->hideOnForm(),
-            AssociationField::new('taskCreadedBy')->hideOnForm(),
-            AssociationField::new('taskUpdatedBy')->hideOnForm()
         ];
     }
 
